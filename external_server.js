@@ -1,61 +1,40 @@
 require("dotenv").config();
-
 const axios = require("axios");
 
-const API_KEY =
-    process.env.ROBLOX_API_KEY;
+const API_KEY = process.env.ROBLOX_API_KEY;
+const UNIVERSE_ID = process.env.ROBLOX_UNIVERSE_ID;
+const TOPIC = "GhostSystem_V10";
 
-const UNIVERSE_ID =
-    process.env.ROBLOX_UNIVERSE_ID;
-
-const TOPIC =
-    "GhostV6";
-
-if (!API_KEY) {
-    throw new Error(
-        "ROBLOX_API_KEY manquante"
-    );
+if (!API_KEY || !UNIVERSE_ID) {
+    console.error("ROBLOX_API_KEY ou ROBLOX_UNIVERSE_ID manquant.");
+    process.exit(1);
 }
 
-if (!UNIVERSE_ID) {
-    throw new Error(
-        "ROBLOX_UNIVERSE_ID manquant"
-    );
-}
-
-async function publish(data) {
+async function sendToRoblox(data) {
 
     try {
 
-        const response =
-            await axios.post(
-
-                `https://apis.roblox.com/messaging-service/v1/universes/${UNIVERSE_ID}/topics/${TOPIC}`,
-
-                {
-                    message: JSON.stringify(data)
+        const response = await axios.post(
+            `https://apis.roblox.com/messaging-service/v1/universes/${UNIVERSE_ID}/topics/${TOPIC}`, {
+                message: JSON.stringify(data)
+            }, {
+                headers: {
+                    "x-api-key": API_KEY,
+                    "Content-Type": "application/json"
                 },
-
-                {
-                    headers: {
-                        "x-api-key": API_KEY,
-
-                        "Content-Type": "application/json"
-                    },
-
-                    timeout: 5000
-                }
-            );
+                timeout: 5000
+            }
+        );
 
         console.log(
-            "[Roblox] Message envoyé",
+            "Roblox OK:",
             response.status
         );
 
     } catch (error) {
 
         console.error(
-            "[Roblox] Erreur:",
+            "Roblox ERROR:",
             error.response ? .data ||
             error.message
         );
@@ -63,9 +42,7 @@ async function publish(data) {
     }
 }
 
-// Test uniquement
-publish({
-    Type: "External",
-    Action: "Test",
-    ServerId: "External"
+sendToRoblox({
+    Type: "Test",
+    Time: Date.now()
 });
