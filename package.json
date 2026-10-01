@@ -1,0 +1,12 @@
+{
+    "name": "roblox-ghost-server",
+    "version": "1.0.0",
+    "main": "external_server.js",
+    "scripts": {
+        "start": "node external_server.js"
+    },
+    "dependencies": {
+        "axios": "^1.8.0",
+        "dotenv": "^16.4.7"
+    }
+}
