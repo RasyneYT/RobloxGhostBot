@@ -1,5 +1,5 @@
 {
-    "name": "roblox-ghost-bot",
+    "name": "roblox-ghost-bridge",
     "version": "1.0.0",
     "main": "external_server.js",
     "scripts": {
