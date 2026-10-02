@@ -37,8 +37,7 @@ async function sendRoblox(data, retries = 2) {
         } catch (error) {
             const status = error.response ? .status;
             const retryable = !status || status === 429 || status >= 500;
-            // On ne log jamais les headers ni la clé
-            console.error("[Roblox] Erreur", status ? ? error.code ? ? "réseau");
+            console.error("[Roblox] Erreur", status ? ? error.code ? ? "reseau");
             if (!retryable || attempt === retries) return false;
             await sleep(1000 * 2 ** attempt);
         }
